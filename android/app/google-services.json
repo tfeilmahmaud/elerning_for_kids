@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "91151508909",
+    "project_id": "elearning-cf8c1",
+    "storage_bucket": "elearning-cf8c1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:91151508909:android:a02695fb9793bb8653ad24",
+        "android_client_info": {
+          "package_name": "com.example.flutter_application_formatiom"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkcnSpXj9ZGbDBUwFRyV9jt5e1UwuaD9U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
