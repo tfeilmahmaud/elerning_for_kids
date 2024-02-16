@@ -25,6 +25,12 @@ class NumberListScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Number Sounds'),
+         leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
       ),
       body: GridView.builder(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

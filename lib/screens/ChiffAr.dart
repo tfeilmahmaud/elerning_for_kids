@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 
-
-
 class Animal {
   final String name;
   final String imageUrl;
@@ -19,7 +17,6 @@ class ChiffAr extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      
       title: 'Animal Sounds',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -30,7 +27,9 @@ class ChiffAr extends StatelessWidget {
 }
 
 class AnimalListScreen extends StatelessWidget {
+  
   final List<Animal> animals = [
+    // Vos données d'animaux...
     Animal(
       name: 'Bald Eagle',
       imageUrl:
@@ -87,7 +86,6 @@ class AnimalListScreen extends StatelessWidget {
           'https://seaworld.org/-/media/seaworld-dotorg/images/landing-pages/animal-sounds/frog_357x229.ashx?version=1_201811282450',
       soundUrl: 'https://example.com/dog_sound.mp3',
     ),
-    // Ajoutez autant d'animaux que vous le souhaitez avec leurs URL d'image et de son correspondantes
   ];
 
   @override
@@ -95,12 +93,18 @@ class AnimalListScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Animal Sounds'),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
       ),
       body: GridView.builder(
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2, // 2 tuiles par ligne
-          crossAxisSpacing: 8, // Espacement horizontal entre les tuiles
-          mainAxisSpacing: 8, // Espacement vertical entre les tuiles
+          crossAxisCount: 2,
+          crossAxisSpacing: 8,
+          mainAxisSpacing: 8,
         ),
         itemCount: animals.length,
         itemBuilder: (context, index) {
@@ -170,3 +174,7 @@ class AnimalTile extends StatelessWidget {
     player.play(soundUrl);
   }
 }
+
+
+
+    

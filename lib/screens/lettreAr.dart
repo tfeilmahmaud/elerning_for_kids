@@ -23,11 +23,10 @@ class AlphabetListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          leading: IconButton(
+        leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.of(context)
-                .pop(); // Utilisation de Navigator pour revenir en arrière
+            Navigator.of(context).pop();
           },
         ),
         title: Text('Alphabet Sounds'),
@@ -40,7 +39,8 @@ class AlphabetListScreen extends StatelessWidget {
         ),
         itemCount: 28, // Nombre total d'alphabets arabes
         itemBuilder: (context, index) {
-          String arabicLetter = String.fromCharCode(1575 + index); // Unicode des lettres arabes
+          String arabicLetter =
+              String.fromCharCode(1575 + index); // Unicode des lettres arabes
           return AlphabetTile(alphabet: arabicLetter);
         },
       ),
@@ -90,14 +90,13 @@ class AlphabetTile extends StatelessWidget {
     );
   }
 
- void _playSound(BuildContext context, String alphabet) {
-  AudioCache player = AudioCache();
-  String soundPath = 'Fr/kid-$alphabet.mp3'; // Chemin correct vers votre fichier audio
-  player.play(soundPath);
-}
+  void _playSound(BuildContext context, String alphabet) {
+    AudioCache player = AudioCache();
+    String soundPath =
+        'assets/Ar/$alphabet.mp3'; // Chemin correct vers votre fichier audio
+    player.play(soundPath);
+  }
 
-
- 
   Color _getTileColor(String alphabet) {
     // Liste de couleurs pour les cartes
     List<Color> colors = [

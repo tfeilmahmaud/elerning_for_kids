@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:image_picker/image_picker.dart';
 
 class MyApp6 extends StatelessWidget {
@@ -15,6 +17,15 @@ class MyApp6 extends StatelessWidget {
       ),
       home: Scaffold(
         appBar: AppBar(
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.logout),
+              onPressed: () {
+                Get.to(ProfileBody());
+                // Navigator.pushReplacementNamed(context, '/login');
+              },
+            ),
+          ],
           title: Text('Your App Title'),
         ),
         body: ProfileBody(),
@@ -192,6 +203,7 @@ class _ProfileBodyState extends State<ProfileBody> {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
+      
       children: [
         SizedBox(height: 20),
         SizedBox(height: 10),
