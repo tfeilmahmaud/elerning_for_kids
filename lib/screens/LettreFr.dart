@@ -26,7 +26,8 @@ class AlphabetListScreen extends StatelessWidget {
            leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.of(context).pop();
+            Navigator.of(context)
+                .pop(); // Utilisation de Navigator pour revenir en arrière
           },
         ),
         title: Text('Alphabet Sounds'),
@@ -41,7 +42,14 @@ class AlphabetListScreen extends StatelessWidget {
         itemBuilder: (context, index) {
           String alphabet = String.fromCharCode(index + 65); // Convertir l'index en alphabet ASCII
           return AlphabetTile(alphabet: alphabet);
+
         },
+      ),
+       floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).push(MaterialPageRoute(builder: (_) => MyApp()));
+        },
+        child: Icon(Icons.quiz), // Icône pour le bouton de quiz
       ),
     );
   }
@@ -119,5 +127,149 @@ class AlphabetTile extends StatelessWidget {
       Colors.black,
     ];
     return colors[alphabet.codeUnitAt(0) % colors.length]; // Associer chaque alphabet à une couleur de la liste
+  }
+}
+
+
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Exercice de Mots',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: WordExercise(),
+    );
+  }
+}
+
+class WordExercise extends StatefulWidget {
+  @override
+  _WordExerciseState createState() => _WordExerciseState();
+}
+
+class _WordExerciseState extends State<WordExercise> {
+  final String targetWord = "FLUTTER";
+  List<String> selectedLetters = List.filled(7, '');
+  List<String> availableLetters = ['F', 'L', 'U', 'T', 'T', 'E', 'R'];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Exercice de Mots'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Reliez les lettres pour former le mot correct :',
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: List.generate(
+                targetWord.length,
+                (index) => GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      selectedLetters[index] = '';
+                    });
+                  },
+                  child: Container(
+                    width: 50,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade300,
+                      border: Border.all(),
+                    ),
+                    alignment: Alignment.center,
+                    child: Text(selectedLetters[index]),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: availableLetters
+                  .map(
+                    (letter) => GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          final emptyIndex = selectedLetters.indexOf('');
+                          if (emptyIndex != -1) {
+                            selectedLetters[emptyIndex] = letter;
+                          }
+                        });
+                      },
+                      child: Container(
+                        width: 50,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: Colors.blue.shade200,
+                          border: Border.all(),
+                        ),
+                        alignment: Alignment.center,
+                        child: Text(letter),
+                      ),
+                    ),
+                  )
+                  .toList(),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                String selectedWord = selectedLetters.join();
+                if (selectedWord == targetWord) {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text('Félicitations!'),
+                        content: Text(
+                            'Vous avez correctement formé le mot $targetWord.'),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text('OK'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text('Essayez à nouveau!'),
+                        content: Text(
+                            'Le mot que vous avez formé n\'est pas correct. Veuillez réessayer.'),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text('OK'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                }
+              },
+              child: Text('Vérifier'),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

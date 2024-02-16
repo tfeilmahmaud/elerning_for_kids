@@ -93,10 +93,11 @@ class AnimalListScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Animal Sounds'),
-        leading: IconButton(
+       leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.of(context).pop();
+            Navigator.of(context)
+                .pop(); // Utilisation de Navigator pour revenir en arrière
           },
         ),
       ),
