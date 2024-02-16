@@ -23,7 +23,7 @@ class AlphabetListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-       leading: IconButton(
+        leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.of(context)
@@ -44,6 +44,13 @@ class AlphabetListScreen extends StatelessWidget {
               String.fromCharCode(1575 + index); // Unicode des lettres arabes
           return AlphabetTile(alphabet: arabicLetter);
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (_) => MyApp()));
+        },
+        child: Icon(Icons.quiz), // Icône pour le bouton de quiz
       ),
     );
   }
@@ -94,7 +101,7 @@ class AlphabetTile extends StatelessWidget {
   void _playSound(BuildContext context, String alphabet) {
     AudioCache player = AudioCache();
     String soundPath =
-        'assets/Ar/$alphabet.mp3'; // Chemin correct vers votre fichier audio
+        'Ar/$alphabet.mp3'; // Chemin correct vers votre fichier audio
     player.play(soundPath);
   }
 
@@ -124,5 +131,154 @@ class AlphabetTile extends StatelessWidget {
     ];
     return colors[alphabet.codeUnitAt(0) %
         colors.length]; // Associer chaque alphabet à une couleur de la liste
+  }
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'تمرين الكلمات',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: WordExercise(),
+    );
+  }
+}
+
+class WordExercise extends StatefulWidget {
+  @override
+  _WordExerciseState createState() => _WordExerciseState();
+}
+
+class _WordExerciseState extends State<WordExercise> {
+  late final String targetWord;
+  late List<String> selectedLetters;
+  final List<String> availableLetters = ['ف', 'ر', 'ا', 'ش', 'ة'];
+
+  @override
+  void initState() {
+    super.initState();
+    targetWord = "فراشة";
+    selectedLetters = List.filled(targetWord.length, '');
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('تمرين الكلمات'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'صلّ الحروف لتشكيل الكلمة الصحيحة:',
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: List.generate(
+                targetWord.length,
+                (index) => GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      selectedLetters[index] = '';
+                    });
+                  },
+                  child: Container(
+                    width: 50,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade300,
+                      border: Border.all(),
+                    ),
+                    alignment: Alignment.center,
+                    child: Text(selectedLetters[index]),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: availableLetters
+                  .map(
+                    (letter) => GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          final emptyIndex = selectedLetters.indexOf('');
+                          if (emptyIndex != -1) {
+                            selectedLetters[emptyIndex] = letter;
+                          }
+                        });
+                      },
+                      child: Container(
+                        width: 50,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: Colors.blue.shade200,
+                          border: Border.all(),
+                        ),
+                        alignment: Alignment.center,
+                        child: Text(letter),
+                      ),
+                    ),
+                  )
+                  .toList(),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                String selectedWord = selectedLetters.join();
+                if (selectedWord == targetWord) {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text('تهانينا!'),
+                        content:
+                            Text('لقد قمت بتشكيل الكلمة الصحيحة: $targetWord.'),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text('حسناً'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text('حاول مرة أخرى!'),
+                        content: Text(
+                            'الكلمة التي قمت بتشكيلها غير صحيحة. الرجاء المحاولة مرة أخرى.'),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text('حسناً'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                }
+              },
+              child: Text('تحقق'),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

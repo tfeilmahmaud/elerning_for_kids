@@ -76,9 +76,9 @@ class CategoriesPage extends StatelessWidget {
                 ),
                 SizedBox(width: 20), // Espacement entre les catégories
                 CategoryCard(
-                  title: 'Chiffres en Arabe',
-                  subTitle: '٠, ١, ٢, ...',
-                  backgroundImage: 'assets/images/er9am.jpg',
+                  title: 'Images des animaux',
+                  subTitle: 'Animaux',
+                  backgroundImage: 'assets/images/an.jpeg',
                   onTap: () {
                     Navigator.push(
                       context,
